@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #0f0f14;
+  color: #fff;
+}
+
+/* NAVBAR */
+nav {
+  display:flex;
+  justify-content:space-between;
+  padding:20px 40px;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  position:sticky;
+  top:0;
+}
+
+nav a {
+  margin:0 10px;
+  color:#ff4da6;
+  text-decoration:none;
+  cursor:pointer;
+}
+
+/* PAGES */
+.page {
+  display:none;
+  padding:60px 40px;
+  max-width:1000px;
+  margin:auto;
+}
+
+.page.active { display:block; }
+
+/* HERO */
+.hero {
+  text-align:center;
+  margin-top:80px;
+}
+
+.hero h1 {
+  font-size:3em;
+  color:#ff4da6;
+}
+
+/* CARD */
+.card {
+  background:rgba(255,255,255,0.05);
+  padding:25px;
+  border-radius:12px;
+  margin:20px 0;
+}
+
+/* GRID */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:20px;
+}
+
+/* GALLERY */
+.gallery img {
+  width:100%;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
+}
+.gallery img:hover {
+  transform:scale(1.05);
+}
+
+/* LIGHTBOX */
+.lightbox {
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.9);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+.lightbox img { max-width:90%; }
+.lightbox.active { display:flex; }
+
+/* SOCIAL */
+.social i {
+  font-size:1.5em;
+  margin:10px;
+  color:#ff4da6;
+}
+
+/* BUTTON */
+.btn {
+  background:#ff4da6;
+  padding:10px 20px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<nav>
+  <div id="logo">Portfolio</div>
+  <div>
+    <a onclick="showPage('home')">Home</a>
+    <a onclick="showPage('about')">About</a>
+    <a onclick="showPage('gallery')">Gallery</a>
+    <a onclick="showPage('contact')">Contact</a>
+  </div>
+</nav>
+
+<!-- HOME -->
+<div class="page active" id="home">
+  <div class="hero">
+    <h1 id="name"></h1>
+    <p id="bio"></p>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div class="page" id="about">
+  <div class="card">
+    <p><strong>Age:</strong> <span id="age"></span></p>
+    <p><strong>Education:</strong> <span id="education"></span></p>
+  </div>
+
+  <div class="card">
+    <h3>Skills</h3>
+    <div id="skills"></div>
+  </div>
+</div>
+
+<!-- GALLERY -->
+<div class="page" id="gallery">
+  <div class="grid gallery" id="galleryGrid"></div>
+</div>
+
+<!-- CONTACT -->
+<div class="page" id="contact">
+  <div class="card social">
+    <a id="github" target="_blank"><i class="fab fa-github"></i></a>
+    <a id="pinterest" target="_blank"><i class="fab fa-pinterest"></i></a>
+  </div>
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img">
+</div>
+
+<script>
+// PAGE NAV
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// LOAD DATA
+async function loadData(){
+  const res = await fetch("data.json");
+  const data = await res.json();
+
+  document.getElementById("name").textContent = data.name;
+  document.getElementById("bio").textContent = data.bio;
+  document.getElementById("education").textContent = data.education;
+
+  // AGE
+  const dob = new Date(data.dob);
+  const today = new Date();
+  let age = today.getFullYear() - dob.getFullYear();
+  if (today < new Date(today.getFullYear(), dob.getMonth(), dob.getDate())) age--;
+  document.getElementById("age").textContent = age;
+
+  // SKILLS
+  document.getElementById("skills").innerHTML =
+    data.skills.map(s => `<span class="btn">${s}</span>`).join(" ");
+
+  // SOCIAL
+  document.getElementById("github").href = data.social.github;
+  document.getElementById("pinterest").href = data.social.pinterest;
+}
+
+// LOAD IMAGES
+async function loadImages(){
+  const res = await fetch("images/images.json");
+  const imgs = await res.json();
+  const gallery = document.getElementById("galleryGrid");
+
+  imgs.forEach(img=>{
+    const el = document.createElement("img");
+    el.src = "images/" + img.file;
+    el.loading="lazy";
+    el.onclick = ()=>openLightbox(el.src);
+    gallery.appendChild(el);
+  });
+}
+
+// LIGHTBOX
+function openLightbox(src){
+  document.getElementById("lightbox-img").src = src;
+  document.getElementById("lightbox").classList.add("active");
+}
+function closeLightbox(){
+  document.getElementById("lightbox").classList.remove("active");
+}
+
+loadData();
+loadImages();
+</script>
+
+</body>
+</html>
