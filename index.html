@@ -3,211 +3,246 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio</title>
+
+<title>Amrita Kilambu | Portfolio</title>
 
 <!-- Font Awesome -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
+* {margin:0;padding:0;box-sizing:border-box;}
 
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #0f0f14;
-  color: #fff;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0b0b0f;
+  color: #eaeaf0;
 }
 
-/* NAVBAR */
-nav {
+/* Layout */
+section {
+  min-height:100vh;
+  padding:60px 20px;
   display:flex;
-  justify-content:space-between;
-  padding:20px 40px;
-  background:rgba(0,0,0,0.4);
-  backdrop-filter: blur(10px);
-  position:sticky;
-  top:0;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
 
-nav a {
-  margin:0 10px;
-  color:#ff4da6;
-  text-decoration:none;
-  cursor:pointer;
+/* Header */
+h1 {
+  font-size:2.8rem;
+  font-weight:700;
+  margin-bottom:10px;
 }
 
-/* PAGES */
-.page {
-  display:none;
-  padding:60px 40px;
-  max-width:1000px;
-  margin:auto;
+.subtitle {
+  opacity:0.7;
+  margin-bottom:30px;
 }
 
-.page.active { display:block; }
-
-/* HERO */
-.hero {
-  text-align:center;
-  margin-top:80px;
-}
-
-.hero h1 {
-  font-size:3em;
-  color:#ff4da6;
-}
-
-/* CARD */
-.card {
-  background:rgba(255,255,255,0.05);
-  padding:25px;
-  border-radius:12px;
-  margin:20px 0;
-}
-
-/* GRID */
+/* Grid */
 .grid {
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap:20px;
+  width:100%;
+  max-width:1000px;
 }
 
-/* GALLERY */
-.gallery img {
-  width:100%;
-  border-radius:10px;
-  cursor:pointer;
+/* Cards */
+.card {
+  background: rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;
+  padding:20px;
   transition:0.3s;
 }
-.gallery img:hover {
-  transform:scale(1.05);
+
+.card:hover {
+  transform:translateY(-5px);
+  border-color:#ff4da6;
+  box-shadow:0 10px 30px rgba(255,77,166,0.2);
 }
 
-/* LIGHTBOX */
+.card h3 {
+  margin-bottom:10px;
+  font-size:1.1rem;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.card p {
+  opacity:0.8;
+  line-height:1.5;
+}
+
+/* Accent */
+.accent {
+  color:#ff4da6;
+}
+
+/* Links */
+a {
+  color:#ff4da6;
+  text-decoration:none;
+}
+a:hover { text-decoration:underline; }
+
+/* Gallery */
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  width:100%;
+  max-width:1000px;
+}
+
+.item {
+  background:#111;
+  border-radius:12px;
+  overflow:hidden;
+  transition:0.3s;
+}
+
+.item:hover {
+  transform:translateY(-5px);
+}
+
+.item img {
+  width:100%;
+  display:block;
+}
+
+.caption {
+  padding:10px;
+  font-size:0.9rem;
+  opacity:0.8;
+}
+
+/* Lightbox */
 .lightbox {
   position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
+  top:0;left:0;
+  width:100%;height:100%;
   background:rgba(0,0,0,0.9);
   display:none;
   justify-content:center;
   align-items:center;
 }
-.lightbox img { max-width:90%; }
-.lightbox.active { display:flex; }
 
-/* SOCIAL */
-.social i {
-  font-size:1.5em;
-  margin:10px;
-  color:#ff4da6;
+.lightbox.active {display:flex;}
+
+.lightbox img {
+  max-width:90%;
+  max-height:90%;
 }
 
-/* BUTTON */
-.btn {
-  background:#ff4da6;
-  padding:10px 20px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
+/* Footer */
+footer {
+  text-align:center;
+  opacity:0.6;
+  padding:20px;
 }
 
+/* Mobile */
+@media (max-width:600px){
+  h1 {font-size:2rem;}
+}
 </style>
 </head>
 
 <body>
 
-<nav>
-  <div id="logo">Portfolio</div>
-  <div>
-    <a onclick="showPage('home')">Home</a>
-    <a onclick="showPage('about')">About</a>
-    <a onclick="showPage('gallery')">Gallery</a>
-    <a onclick="showPage('contact')">Contact</a>
-  </div>
-</nav>
+<!-- SECTION 1 -->
+<section>
 
-<!-- HOME -->
-<div class="page active" id="home">
-  <div class="hero">
-    <h1 id="name"></h1>
-    <p id="bio"></p>
-  </div>
-</div>
+  <h1>Amrita Kilambu</h1>
+  <div class="subtitle">Digital Artist • Creative Developer</div>
 
-<!-- ABOUT -->
-<div class="page" id="about">
-  <div class="card">
-    <p><strong>Age:</strong> <span id="age"></span></p>
-    <p><strong>Education:</strong> <span id="education"></span></p>
+  <div class="grid">
+
+    <div class="card">
+      <h3><i class="fa-solid fa-user"></i> Profile</h3>
+      <p><strong>DOB:</strong> 2010/04/01</p>
+      <p><strong>Age:</strong> <span id="age"></span></p>
+      <p><strong>Education:</strong> SEE Complete • +2</p>
+    </div>
+
+    <div class="card">
+      <h3><i class="fa-solid fa-pen-nib"></i> About</h3>
+      <p>
+        I create expressive digital artwork focused on mood, color, and identity.
+        My work blends aesthetic visuals with experimental ideas.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3><i class="fa-solid fa-code"></i> Skills</h3>
+      <p>Digital Art • UI Design • Creative Coding • HTML • CSS • JS</p>
+    </div>
+
+    <div class="card">
+      <h3><i class="fa-solid fa-bullseye"></i> Focus</h3>
+      <p>Exploring visual storytelling through bold and immersive design.</p>
+    </div>
+
+    <div class="card">
+      <h3><i class="fa-solid fa-link"></i> Connect</h3>
+      <p>
+        <i class="fa-brands fa-github"></i>
+        <a href="https://github.com/amritakil" target="_blank">GitHub</a><br>
+        <i class="fa-brands fa-pinterest"></i>
+        <a href="https://pinterest.com/amritakil" target="_blank">Pinterest</a>
+      </p>
+    </div>
+
   </div>
 
-  <div class="card">
-    <h3>Skills</h3>
-    <div id="skills"></div>
-  </div>
-</div>
+</section>
 
-<!-- GALLERY -->
-<div class="page" id="gallery">
-  <div class="grid gallery" id="galleryGrid"></div>
-</div>
+<!-- SECTION 2 -->
+<section>
 
-<!-- CONTACT -->
-<div class="page" id="contact">
-  <div class="card social">
-    <a id="github" target="_blank"><i class="fab fa-github"></i></a>
-    <a id="pinterest" target="_blank"><i class="fab fa-pinterest"></i></a>
-  </div>
-</div>
+  <h2 style="margin-bottom:20px;">Gallery</h2>
+
+  <div class="gallery" id="gallery"></div>
+
+</section>
+
+<!-- SECTION 3 -->
+<section>
+  <footer>© 2026 • amritakil.netlify.app</footer>
+</section>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img">
 </div>
 
 <script>
-// PAGE NAV
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-// LOAD DATA
-async function loadData(){
-  const res = await fetch("data.json");
-  const data = await res.json();
-
-  document.getElementById("name").textContent = data.name;
-  document.getElementById("bio").textContent = data.bio;
-  document.getElementById("education").textContent = data.education;
-
-  // AGE
-  const dob = new Date(data.dob);
-  const today = new Date();
-  let age = today.getFullYear() - dob.getFullYear();
-  if (today < new Date(today.getFullYear(), dob.getMonth(), dob.getDate())) age--;
-  document.getElementById("age").textContent = age;
-
-  // SKILLS
-  document.getElementById("skills").innerHTML =
-    data.skills.map(s => `<span class="btn">${s}</span>`).join(" ");
-
-  // SOCIAL
-  document.getElementById("github").href = data.social.github;
-  document.getElementById("pinterest").href = data.social.pinterest;
-}
+// AGE
+const dob = new Date("2010-04-01");
+const today = new Date();
+let age = today.getFullYear() - dob.getFullYear();
+if (today < new Date(today.getFullYear(),3,1)) age--;
+document.getElementById("age").textContent = age;
 
 // LOAD IMAGES
 async function loadImages(){
   const res = await fetch("images/images.json");
-  const imgs = await res.json();
-  const gallery = document.getElementById("galleryGrid");
+  const data = await res.json();
+  const gallery = document.getElementById("gallery");
 
-  imgs.forEach(img=>{
-    const el = document.createElement("img");
-    el.src = "images/" + img.file;
-    el.loading="lazy";
-    el.onclick = ()=>openLightbox(el.src);
-    gallery.appendChild(el);
+  data.forEach(img=>{
+    const div=document.createElement("div");
+    div.className="item";
+
+    div.innerHTML = `
+      <img src="images/${img.file}" loading="lazy" onclick="openLightbox(this.src)">
+      <div class="caption">${img.title || ""}</div>
+    `;
+
+    gallery.appendChild(div);
   });
 }
 
@@ -220,7 +255,6 @@ function closeLightbox(){
   document.getElementById("lightbox").classList.remove("active");
 }
 
-loadData();
 loadImages();
 </script>
 
