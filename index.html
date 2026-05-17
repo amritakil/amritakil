@@ -10,214 +10,233 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
-* {margin:0;padding:0;box-sizing:border-box;}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #0b0b0f;
-  color: #eaeaf0;
+  font-family: 'Segoe UI', sans-serif;
+  background:#050505;
+  color:white;
+  overflow-x:hidden;
+  cursor:none;
 }
 
-/* Layout */
-section {
-  min-height:100vh;
-  padding:60px 20px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
+/* Cursor */
+.cursor {
+  position:fixed;
+  width:15px;height:15px;
+  border-radius:50%;
+  background:#ff4da6;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 20px #ff4da6;
 }
+
+/* Glow bg */
+body::before {
+  content:"";
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:
+    radial-gradient(circle at 20% 20%, #ff2e88, transparent),
+    radial-gradient(circle at 80% 70%, #ff69b4, transparent);
+  opacity:0.4;
+  z-index:-1;
+}
+
+/* Fade */
+body { animation:fadeIn 1s ease; }
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
 
 /* Header */
+header { text-align:center; padding:60px 20px; }
+
 h1 {
-  font-size:2.8rem;
-  font-weight:700;
-  margin-bottom:10px;
+  font-size:3em;
+  color:#ff4da6;
+  text-shadow:0 0 20px #ff4da6;
+  animation:glitch 2s infinite;
 }
 
-.subtitle {
-  opacity:0.7;
-  margin-bottom:30px;
+@keyframes glitch {
+  0% { text-shadow:2px 2px #ff2e88; }
+  50% { text-shadow:-2px -2px #ff69b4; }
+  100% { text-shadow:2px 2px #ff2e88; }
 }
 
-/* Grid */
-.grid {
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap:20px;
+#typing { margin-top:10px; opacity:0.8; }
+
+/* Featured */
+.featured {
+  max-width:800px;
+  margin:20px auto;
+  padding:10px;
+}
+.featured img {
   width:100%;
-  max-width:1000px;
+  border-radius:15px;
+  box-shadow:0 10px 40px rgba(255,77,166,0.3);
+}
+.featured h2 {
+  text-align:center;
+  margin-top:10px;
 }
 
-/* Cards */
+/* Card */
 .card {
-  background: rgba(255,255,255,0.04);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:16px;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(12px);
+  border-radius:15px;
   padding:20px;
+  margin:20px auto;
+  max-width:600px;
+  box-shadow:0 0 20px rgba(255,77,166,0.2);
   transition:0.3s;
 }
 
-.card:hover {
-  transform:translateY(-5px);
-  border-color:#ff4da6;
-  box-shadow:0 10px 30px rgba(255,77,166,0.2);
-}
+.card:hover { transform:translateY(-5px); }
 
 .card h3 {
   margin-bottom:10px;
-  font-size:1.1rem;
   display:flex;
-  align-items:center;
   gap:8px;
-}
-
-.card p {
-  opacity:0.8;
-  line-height:1.5;
-}
-
-/* Accent */
-.accent {
-  color:#ff4da6;
+  align-items:center;
 }
 
 /* Links */
-a {
-  color:#ff4da6;
-  text-decoration:none;
-}
-a:hover { text-decoration:underline; }
+a { color:#ff4da6; text-decoration:none; }
+a:hover { text-shadow:0 0 10px #ff4da6; }
 
 /* Gallery */
 .gallery {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:20px;
-  width:100%;
-  max-width:1000px;
+  padding:30px;
 }
 
 .item {
-  background:#111;
-  border-radius:12px;
+  position:relative;
   overflow:hidden;
-  transition:0.3s;
-}
-
-.item:hover {
-  transform:translateY(-5px);
 }
 
 .item img {
   width:100%;
-  display:block;
+  border-radius:12px;
+  transition:0.3s;
 }
 
+.item:hover img { transform:scale(1.05); }
+
+/* Caption */
 .caption {
+  position:absolute;
+  bottom:0;
+  width:100%;
+  background:rgba(0,0,0,0.7);
+  text-align:center;
   padding:10px;
-  font-size:0.9rem;
-  opacity:0.8;
+  opacity:0;
+  transition:0.3s;
 }
+
+.item:hover .caption { opacity:1; }
 
 /* Lightbox */
 .lightbox {
   position:fixed;
-  top:0;left:0;
-  width:100%;height:100%;
+  top:0; left:0;
+  width:100%; height:100%;
   background:rgba(0,0,0,0.9);
   display:none;
   justify-content:center;
   align-items:center;
 }
 
-.lightbox.active {display:flex;}
+.lightbox img { max-width:90%; max-height:90%; }
+.lightbox.active { display:flex; }
 
-.lightbox img {
-  max-width:90%;
-  max-height:90%;
+/* Music */
+.music {
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:#ff4da6;
+  border:none;
+  padding:10px 15px;
+  border-radius:10px;
+  cursor:pointer;
 }
 
 /* Footer */
 footer {
   text-align:center;
-  opacity:0.6;
   padding:20px;
+  opacity:0.6;
 }
 
 /* Mobile */
-@media (max-width:600px){
-  h1 {font-size:2rem;}
+@media (max-width:768px){
+  body { cursor:auto; }
+  .cursor { display:none; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- SECTION 1 -->
-<section>
+<div class="cursor" id="cursor"></div>
 
+<header>
   <h1>Amrita Kilambu</h1>
-  <div class="subtitle">Digital Artist • Creative Developer</div>
+  <div id="typing"></div>
+</header>
 
-  <div class="grid">
+<!-- FEATURED -->
+<div class="featured" id="featured"></div>
 
-    <div class="card">
-      <h3><i class="fa-solid fa-user"></i> Profile</h3>
-      <p><strong>DOB:</strong> 2010/04/01</p>
-      <p><strong>Age:</strong> <span id="age"></span></p>
-      <p><strong>Education:</strong> SEE Complete • +2</p>
-    </div>
+<!-- DETAILS -->
+<div class="card">
+  <h3><i class="fa-solid fa-user"></i> Profile</h3>
+  <p><strong>DOB:</strong> 2010/04/01</p>
+  <p><strong>Age:</strong> <span id="age"></span></p>
+  <p><strong>Education:</strong> SEE Complete • +2</p>
+</div>
 
-    <div class="card">
-      <h3><i class="fa-solid fa-pen-nib"></i> About</h3>
-      <p>
-        I create expressive digital artwork focused on mood, color, and identity.
-        My work blends aesthetic visuals with experimental ideas.
-      </p>
-    </div>
+<div class="card">
+  <h3><i class="fa-solid fa-pen-nib"></i> About</h3>
+  <p>Digital artist exploring expressive visuals, identity, and aesthetic design.</p>
+</div>
 
-    <div class="card">
-      <h3><i class="fa-solid fa-code"></i> Skills</h3>
-      <p>Digital Art • UI Design • Creative Coding • HTML • CSS • JS</p>
-    </div>
+<div class="card">
+  <h3><i class="fa-solid fa-code"></i> Skills</h3>
+  <p>Digital Art • UI Design • HTML • CSS • JavaScript</p>
+</div>
 
-    <div class="card">
-      <h3><i class="fa-solid fa-bullseye"></i> Focus</h3>
-      <p>Exploring visual storytelling through bold and immersive design.</p>
-    </div>
+<div class="card">
+  <h3><i class="fa-solid fa-link"></i> Connect</h3>
+  <p>
+    <i class="fa-brands fa-github"></i>
+    <a href="https://github.com/amritakil" target="_blank"> GitHub</a><br>
+    <i class="fa-brands fa-pinterest"></i>
+    <a href="https://pinterest.com/amritakil" target="_blank"> Pinterest</a>
+  </p>
+</div>
 
-    <div class="card">
-      <h3><i class="fa-solid fa-link"></i> Connect</h3>
-      <p>
-        <i class="fa-brands fa-github"></i>
-        <a href="https://github.com/amritakil" target="_blank">GitHub</a><br>
-        <i class="fa-brands fa-pinterest"></i>
-        <a href="https://pinterest.com/amritakil" target="_blank">Pinterest</a>
-      </p>
-    </div>
-
-  </div>
-
-</section>
-
-<!-- SECTION 2 -->
-<section>
-
-  <h2 style="margin-bottom:20px;">Gallery</h2>
-
-  <div class="gallery" id="gallery"></div>
-
-</section>
-
-<!-- SECTION 3 -->
-<section>
-  <footer>© 2026 • amritakil.netlify.app</footer>
-</section>
+<!-- GALLERY -->
+<section class="gallery" id="gallery"></section>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img id="lightbox-img">
 </div>
+
+<button class="music" onclick="toggleMusic()">🎵</button>
+
+<audio id="bgmusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<footer>© 2026 • amritakil.netlify.app</footer>
 
 <script>
 // AGE
@@ -227,32 +246,66 @@ let age = today.getFullYear() - dob.getFullYear();
 if (today < new Date(today.getFullYear(),3,1)) age--;
 document.getElementById("age").textContent = age;
 
-// LOAD IMAGES
+// Typing
+const text="Digital Artist • Creative Coding • Visual Expression";
+let i=0;
+(function type(){
+  if(i<text.length){
+    document.getElementById("typing").innerHTML+=text[i++];
+    setTimeout(type,40);
+  }
+})();
+
+// Cursor
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{
+  cursor.style.left=e.clientX+"px";
+  cursor.style.top=e.clientY+"px";
+});
+
+// Load images + featured
 async function loadImages(){
-  const res = await fetch("images/images.json");
-  const data = await res.json();
-  const gallery = document.getElementById("gallery");
+  const res=await fetch("images/images.json");
+  const data=await res.json();
+
+  const gallery=document.getElementById("gallery");
+  const featured=document.getElementById("featured");
 
   data.forEach(img=>{
+    if(img.featured){
+      featured.innerHTML=`
+        <img src="images/${img.file}">
+        <h2>${img.title}</h2>
+      `;
+    }
+
     const div=document.createElement("div");
     div.className="item";
 
-    div.innerHTML = `
+    div.innerHTML=`
       <img src="images/${img.file}" loading="lazy" onclick="openLightbox(this.src)">
-      <div class="caption">${img.title || ""}</div>
+      <div class="caption">${img.title}</div>
     `;
 
     gallery.appendChild(div);
   });
 }
 
-// LIGHTBOX
+// Lightbox
 function openLightbox(src){
-  document.getElementById("lightbox-img").src = src;
+  document.getElementById("lightbox-img").src=src;
   document.getElementById("lightbox").classList.add("active");
 }
 function closeLightbox(){
   document.getElementById("lightbox").classList.remove("active");
+}
+
+// Music
+let playing=false;
+function toggleMusic(){
+  const audio=document.getElementById("bgmusic");
+  if(!playing){ audio.play(); playing=true; }
+  else{ audio.pause(); playing=false; }
 }
 
 loadImages();
